@@ -60,6 +60,44 @@ _collection = _client.get_collection(
 _anthropic = Anthropic()
 
 
+def _build_prompt(question: str, context: str) -> str:
+    return (
+        "You are an HR-assistant of Atlas copco Airpower and answer the employee "
+        "question using only the context provided below. If the answer is not "
+        "present in the context, say that I am sorry and that info is not present "
+        "in the hr_policy doc.\n\n"
+        f"Context : {context}\n\n"
+        f"Question :{question}"
+    )
+
+
+def retrieve(question: str) -> dict:
+    """Retrieve relevant chunks without calling the LLM. Returns sources + context."""
+    results = _collection.query(query_texts=[question], n_results=TOP_K)
+    documents = results["documents"][0]
+    ids = results["ids"][0]
+    distances = (results.get("distances") or [[None] * len(documents)])[0]
+    context = "\n\n".join(documents)
+    sources = [
+        {
+            "id": ids[i],
+            "text": documents[i],
+            "distance": distances[i] if i < len(distances) else None,
+        }
+        for i in range(len(documents))
+    ]
+    return {"sources": sources, "context": context}
+
+
+def stream_response(question: str, context: str):
+    """Return an Anthropic streaming context manager for the given question and context."""
+    return _anthropic.messages.stream(
+        model=CLAUDE_MODEL,
+        max_tokens=1024,
+        messages=[{"role": "user", "content": _build_prompt(question, context)}],
+    )
+
+
 def get_answer_detailed(question: str) -> dict:
     """
     Answer an employee question and return the answer together with the

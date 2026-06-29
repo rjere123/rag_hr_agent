@@ -232,20 +232,27 @@ def process_pending() -> None:
     st.session_state.generating = True
 
     try:
-        with st.status("Working on your answer…", expanded=True) as status:
-            status.update(label="Loading knowledge base…")
-            rag = load_backend()
+        rag = load_backend()
 
-            status.update(label="Retrieving relevant policy sections…")
+        # Step 1: Retrieval (fast — sub-second ChromaDB lookup).
+        with st.spinner("Retrieving relevant policy sections…"):
             start = time.perf_counter()
-            result = rag.get_answer_detailed(question)
-            latency = time.perf_counter() - start
+            retrieval = rag.retrieve(question)
 
-            status.update(label="Done", state="complete")
+        st.session_state.sources = retrieval["sources"]
 
-        st.session_state.messages.append({"role": "assistant", "content": result["answer"]})
-        st.session_state.sources = result.get("sources", [])
-        st.session_state.usage = result.get("usage")
+        # Step 2: Stream the LLM response so tokens appear immediately.
+        with rag.stream_response(question, retrieval["context"]) as stream:
+            with st.chat_message("assistant"):
+                answer = st.write_stream(stream.text_stream)
+            final_msg = stream.get_final_message()
+
+        latency = time.perf_counter() - start
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+        st.session_state.usage = {
+            "input_tokens": final_msg.usage.input_tokens,
+            "output_tokens": final_msg.usage.output_tokens,
+        }
         st.session_state.latency = latency
         st.toast("Answer ready", icon="✅")
 
@@ -297,14 +304,14 @@ def main() -> None:
         st.write("")
         render_prompt_box()
 
+        # Process pending inside the chat column so the stream renders here.
+        if st.session_state.pending:
+            process_pending()
+
     with rail_col:
         ui.render_metrics(st.session_state.usage, st.session_state.latency)
         st.write("")
         ui.render_sources_rail(st.session_state.sources)
-
-    # If a question is queued, process it (kept last so the UI above renders).
-    if st.session_state.pending:
-        process_pending()
 
 
 if __name__ == "__main__":

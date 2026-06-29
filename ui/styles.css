@@ -27,7 +27,7 @@ html, body, .stApp,
 
 /* Tighten the default top padding so the branded header sits high. */
 .block-container {
-    padding-top: 1.5rem;     /* 24px */
+    padding-top: 0.5rem;
     padding-bottom: 4rem;    /* 64px */
     max-width: 1280px;
 }
@@ -191,6 +191,8 @@ footer { visibility: hidden; }
 [data-testid="stToolbar"],
 [data-testid="stAppDeployButton"],
 .stDeployButton { display: none !important; }
+/* Remove the header bar that causes blank whitespace at the top. */
+header[data-testid="stHeader"] { display: none !important; }
 /* toolbarMode=minimal can hide the sidebar toggle — keep it always visible. */
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapseButton"] {
