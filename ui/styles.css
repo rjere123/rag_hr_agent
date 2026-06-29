@@ -191,9 +191,16 @@ footer { visibility: hidden; }
 [data-testid="stToolbar"],
 [data-testid="stAppDeployButton"],
 .stDeployButton { display: none !important; }
-/* Remove the header bar that causes blank whitespace at the top. */
-header[data-testid="stHeader"] { display: none !important; }
-/* toolbarMode=minimal can hide the sidebar toggle — keep it always visible. */
+/* Collapse the header to zero height (removes whitespace) but keep it in the
+   DOM so the sidebar toggle button inside it remains reachable. */
+header[data-testid="stHeader"] {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+}
+/* Keep the sidebar toggle buttons visible even with the header collapsed. */
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapseButton"] {
     display: flex !important;
