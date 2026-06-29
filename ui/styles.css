@@ -191,6 +191,12 @@ footer { visibility: hidden; }
 [data-testid="stToolbar"],
 [data-testid="stAppDeployButton"],
 .stDeployButton { display: none !important; }
+/* toolbarMode=minimal can hide the sidebar toggle — keep it always visible. */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"] {
+    display: flex !important;
+    visibility: visible !important;
+}
 
 /* ----------------------------- Responsive ------------------------------ */
 /* Streamlit columns keep their ratio until quite narrow; on small tablets
