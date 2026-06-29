@@ -56,6 +56,10 @@ def _init_state() -> None:
 
 _init_state()
 
+# Bridge Streamlit Cloud secrets → os.environ so rag.py finds the key.
+if "ANTHROPIC_API_KEY" in st.secrets:
+    os.environ.setdefault("ANTHROPIC_API_KEY", st.secrets["ANTHROPIC_API_KEY"])
+
 
 # --------------------------------------------------------------------------
 # Backend loader (cached so the heavy rag.py import / model load happens once).
