@@ -1,9 +1,8 @@
-anthropic
-python-dotenv
-pdfplumber
-langchain
-langchain-text-splitters
-sentence-transformers
-chromadb
-streamlit
-reportlab
+# Runtime dependencies for the deployed Streamlit app ONLY.
+# The vector store is prebuilt and committed (vector-store/), so the app does
+# not need the PDF-ingestion / embedding-training stack at runtime.
+# To (re)build the vector store locally, also install requirements-ingest.txt.
+streamlit>=1.40,<2
+anthropic>=0.40
+chromadb>=1.5,<2
+python-dotenv>=1.0
