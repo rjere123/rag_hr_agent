@@ -175,6 +175,19 @@ section[data-testid="stSidebar"] h3 { color: var(--ac-text); }
 }
 [data-testid="stMetricLabel"] p { color: var(--ac-muted); font-size: 12px; }
 
+/* Static (non-animated) telemetry cards — replaces st.metric. */
+.ac-metrics { display: flex; gap: 12px; }
+.ac-metric {
+    flex: 1;
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    text-align: left;
+}
+.ac-metric__label { font-size: 12px; color: var(--ac-muted); margin-bottom: 4px; }
+.ac-metric__value { font-size: 22px; font-weight: 700; color: var(--ac-text); line-height: 1.2; }
+
 /* ----------------------------- Inputs ---------------------------------- */
 .stTextArea textarea,
 .stTextInput input {

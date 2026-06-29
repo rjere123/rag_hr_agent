@@ -114,11 +114,33 @@ def render_sources_rail(sources: list[dict]) -> None:
 
 
 def render_metrics(usage: dict | None, latency: float | None) -> None:
-    """Compact telemetry row: input/output tokens and execution time."""
+    """Compact telemetry row: input/output tokens and execution time.
+
+    Rendered as static HTML (not st.metric) so the values appear instantly
+    with no count-up animation.
+    """
     st.markdown('<p class="ac-rail-title">Last response</p>', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns(3)
     in_tok = usage.get("input_tokens") if usage else None
     out_tok = usage.get("output_tokens") if usage else None
-    c1.metric("Input tok", str(in_tok) if in_tok is not None else "—")
-    c2.metric("Output tok", str(out_tok) if out_tok is not None else "—")
-    c3.metric("Time", f"{latency:.2f}s" if latency is not None else "—")
+    in_s = str(in_tok) if in_tok is not None else "&mdash;"
+    out_s = str(out_tok) if out_tok is not None else "&mdash;"
+    time_s = f"{latency:.2f}s" if latency is not None else "&mdash;"
+    st.markdown(
+        f"""
+        <div class="ac-metrics">
+            <div class="ac-metric">
+                <div class="ac-metric__label">Input tok</div>
+                <div class="ac-metric__value">{in_s}</div>
+            </div>
+            <div class="ac-metric">
+                <div class="ac-metric__label">Output tok</div>
+                <div class="ac-metric__value">{out_s}</div>
+            </div>
+            <div class="ac-metric">
+                <div class="ac-metric__label">Time</div>
+                <div class="ac-metric__value">{time_s}</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
