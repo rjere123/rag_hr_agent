@@ -1,0 +1,201 @@
+/* =========================================================================
+   Atlas Copco Airpower — HR Assistant
+   Concept C: Branded Enterprise + Sources
+   --------------------------------------------------------------------------
+   Structural styling only. Theme COLOURS are injected as CSS custom
+   properties (--ac-*) by ui/theme.py so a single stylesheet serves both the
+   Light and Dark themes. All spacing follows an 8px grid.
+
+   NOTE: Some selectors target Streamlit-generated test-ids / classes
+   (e.g. section[data-testid="stSidebar"]). These are widely used in the
+   community but are not part of a versioned public CSS contract and may need
+   review on major Streamlit upgrades.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ----------------------------- Base canvas ----------------------------- */
+html, body, .stApp,
+[class*="css"] {
+    font-family: 'Roboto', system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.stApp {
+    background: var(--ac-bg);
+    color: var(--ac-text);
+}
+
+/* Tighten the default top padding so the branded header sits high. */
+.block-container {
+    padding-top: 1.5rem;     /* 24px */
+    padding-bottom: 4rem;    /* 64px */
+    max-width: 1280px;
+}
+
+/* ----------------------------- Header band ----------------------------- */
+.ac-header {
+    background: linear-gradient(135deg, var(--ac-brand) 0%, var(--ac-brand-2) 100%);
+    border-radius: 16px;
+    padding: 20px 28px;                 /* 8px grid: 24/32-ish */
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 6px 24px rgba(27, 58, 107, 0.18);
+}
+
+.ac-header__brand { display: flex; align-items: center; gap: 16px; }
+
+.ac-header__logo {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700; color: #fff;
+}
+
+.ac-header__title { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.2; margin: 0; }
+.ac-header__subtitle { color: rgba(255,255,255,0.82); font-size: 13px; margin: 2px 0 0; }
+
+/* Connection status pill */
+.ac-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.14);
+    color: #fff; font-size: 13px; font-weight: 500;
+    padding: 8px 14px; border-radius: 999px;
+}
+.ac-status__dot { width: 9px; height: 9px; border-radius: 50%; }
+.ac-status__dot--ok   { background: #34D399; box-shadow: 0 0 0 4px rgba(52,211,153,0.25); }
+.ac-status__dot--warn { background: #FBBF24; box-shadow: 0 0 0 4px rgba(251,191,36,0.25); }
+.ac-status__dot--err  { background: #F87171; box-shadow: 0 0 0 4px rgba(248,113,113,0.25); }
+
+/* ----------------------------- Section labels -------------------------- */
+.ac-rail-title {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ac-muted);
+    margin: 4px 0 12px;
+}
+
+/* ----------------------------- Source cards ---------------------------- */
+.ac-source {
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border);
+    border-left: 4px solid var(--ac-brand-2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ac-source:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(27, 58, 107, 0.12);
+}
+.ac-source__head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+}
+.ac-source__id { font-size: 12px; font-weight: 700; color: var(--ac-brand-2); }
+.ac-source__score {
+    font-size: 11px; color: var(--ac-muted);
+    background: var(--ac-chip); padding: 2px 8px; border-radius: 999px;
+}
+.ac-source__text {
+    font-size: 12.5px; line-height: 1.5; color: var(--ac-text);
+    max-height: 132px; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical;
+}
+
+/* ----------------------------- Empty state ----------------------------- */
+.ac-empty {
+    text-align: center;
+    padding: 56px 24px;
+    background: var(--ac-card);
+    border: 1px dashed var(--ac-border);
+    border-radius: 20px;
+}
+.ac-empty__icon {
+    width: 72px; height: 72px; margin: 0 auto 16px;
+    border-radius: 20px;
+    background: var(--ac-chip);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+}
+.ac-empty__title { font-size: 22px; font-weight: 700; color: var(--ac-text); margin: 0 0 8px; }
+.ac-empty__sub   { font-size: 14px; color: var(--ac-muted); margin: 0 0 8px; }
+
+/* ----------------------------- Chat messages --------------------------- */
+[data-testid="stChatMessage"] {
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border);
+    border-radius: 16px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 10px rgba(16, 24, 40, 0.04);
+}
+
+/* ----------------------------- Sidebar --------------------------------- */
+section[data-testid="stSidebar"] {
+    background: var(--ac-sidebar);
+    border-right: 1px solid var(--ac-border);
+}
+section[data-testid="stSidebar"] .stHeading,
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 { color: var(--ac-text); }
+
+/* ----------------------------- Buttons --------------------------------- */
+.stButton > button,
+.stDownloadButton > button,
+.stFormSubmitButton > button {
+    border-radius: 10px;
+    font-weight: 500;
+    border: 1px solid var(--ac-border);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+.stFormSubmitButton > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(27, 58, 107, 0.16);
+}
+
+/* Primary submit button uses the brand colour */
+.stFormSubmitButton > button[kind="primary"],
+.stButton > button[kind="primary"] {
+    background: var(--ac-brand);
+    border-color: var(--ac-brand);
+    color: #fff;
+}
+
+/* ----------------------------- Metrics --------------------------------- */
+[data-testid="stMetric"] {
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+[data-testid="stMetricLabel"] p { color: var(--ac-muted); font-size: 12px; }
+
+/* ----------------------------- Inputs ---------------------------------- */
+.stTextArea textarea,
+.stTextInput input {
+    border-radius: 10px;
+    background: var(--ac-card);
+    color: var(--ac-text);
+    border: 1px solid var(--ac-border);
+}
+
+/* Hide Streamlit chrome for a cleaner SaaS look */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+/* Hide the top-right "Deploy" button / toolbar (CSS fallback to config). */
+[data-testid="stToolbar"],
+[data-testid="stAppDeployButton"],
+.stDeployButton { display: none !important; }
+
+/* ----------------------------- Responsive ------------------------------ */
+/* Streamlit columns keep their ratio until quite narrow; on small tablets
+   we soften the side padding so content keeps breathing room. */
+@media (max-width: 900px) {
+    .block-container { padding-left: 1rem; padding-right: 1rem; }
+    .ac-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+}

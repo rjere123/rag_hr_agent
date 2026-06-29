@@ -1,0 +1,9 @@
+anthropic
+python-dotenv
+pdfplumber
+langchain
+langchain-text-splitters
+sentence-transformers
+chromadb
+streamlit
+reportlab

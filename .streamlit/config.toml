@@ -1,0 +1,23 @@
+# Base Streamlit theme for the Atlas Copco Airpower HR Assistant.
+# This sets the DEFAULT (light) palette via Streamlit's native theming.
+# The in-app Light/Dark toggle layers additional CSS on top (see ui/theme.py).
+# Note: Streamlit's [theme] font only accepts "sans serif" / "serif" /
+# "monospace"; the Roboto webfont is applied via CSS @import in ui/styles.css.
+
+[theme]
+base = "light"
+primaryColor = "#1B3A6B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#EAF0FB"
+textColor = "#2C2C2C"
+font = "sans serif"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+# Hide the top-right toolbar (incl. the "Deploy" button) for a clean app UI.
+toolbarMode = "minimal"
