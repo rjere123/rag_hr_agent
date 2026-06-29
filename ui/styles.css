@@ -191,18 +191,17 @@ footer { visibility: hidden; }
 [data-testid="stToolbar"],
 [data-testid="stAppDeployButton"],
 .stDeployButton { display: none !important; }
-/* Collapse the header to zero height (removes whitespace) but keep it in the
-   DOM so the sidebar toggle button inside it remains reachable. */
+/* Take the header out of document flow so it adds no whitespace, but keep
+   it in the DOM so the sidebar toggle inside it stays reachable. */
 header[data-testid="stHeader"] {
-    height: 0 !important;
-    min-height: 0 !important;
-    padding: 0 !important;
+    position: absolute !important;
     background: transparent !important;
-    overflow: visible !important;
+    pointer-events: none !important;
 }
-/* Keep the sidebar toggle buttons visible even with the header collapsed. */
+/* Re-enable clicks on just the sidebar toggle buttons. */
 [data-testid="collapsedControl"],
 [data-testid="stSidebarCollapseButton"] {
+    pointer-events: auto !important;
     display: flex !important;
     visibility: visible !important;
 }
