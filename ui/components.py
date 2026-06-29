@@ -119,6 +119,6 @@ def render_metrics(usage: dict | None, latency: float | None) -> None:
     c1, c2, c3 = st.columns(3)
     in_tok = usage.get("input_tokens") if usage else None
     out_tok = usage.get("output_tokens") if usage else None
-    c1.metric("Input tok", in_tok if in_tok is not None else "—")
-    c2.metric("Output tok", out_tok if out_tok is not None else "—")
+    c1.metric("Input tok", str(in_tok) if in_tok is not None else "—")
+    c2.metric("Output tok", str(out_tok) if out_tok is not None else "—")
     c3.metric("Time", f"{latency:.2f}s" if latency is not None else "—")
